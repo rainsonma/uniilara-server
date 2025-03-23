@@ -3,8 +3,8 @@
 namespace Uniilara\Server\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Uniilara\Server\Http\Server;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class ServerCommand extends Command
 {
@@ -32,8 +32,8 @@ class ServerCommand extends Command
             return;
         }
 
-        $this->info("Starting Uniilara on http://{$host}:{$port}");
-
+        $this->info("Running action: {$action}");
+        $this->info("Uniilara Workerman starts on http://{$host}:{$port}");
 
         global $argv;
         $argv[1] = $action;
