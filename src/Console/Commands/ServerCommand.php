@@ -2,8 +2,9 @@
 
 namespace Uniilara\Server\Console\Commands;
 
-use Uniilara\Server\HttpServer;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Uniilara\Server\Http\Server;
 
 class ServerCommand extends Command
 {
@@ -14,6 +15,9 @@ class ServerCommand extends Command
 
     protected $description = 'Start the Uniilara Workerman http server.';
 
+    /**
+     * @throws BindingResolutionException
+     */
     public function handle() : void
     {
         $action = $this->argument('action');
@@ -34,6 +38,6 @@ class ServerCommand extends Command
         global $argv;
         $argv[1] = $action;
 
-        (new HttpServer($host, $port))();
+        (new Server($host, $port))->run();
     }
 }
