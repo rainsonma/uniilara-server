@@ -10,8 +10,9 @@ class ServerCommand extends Command
 {
     protected $signature = 'app
                             {action=start : options (start|stop|restart|status)}
-                            {--host=127.0.0.1}
-                            {--port=8550}';
+                            {--host=localhost}
+                            {--port=8550}
+                            {--workers=4}';
 
     protected $description = 'Start the Uniilara Workerman http server.';
 
@@ -24,6 +25,7 @@ class ServerCommand extends Command
 
         $host = $this->option('host');
         $port = $this->option('port');
+        $workers = $this->option('workers');
 
         $validActions = ['start', 'stop', 'restart', 'reload', 'status', 'connections'];
 
@@ -38,6 +40,6 @@ class ServerCommand extends Command
         global $argv;
         $argv[1] = $action;
 
-        (new Server($host, $port))->run();
+        (new Server($host, $port, $workers))->run();
     }
 }

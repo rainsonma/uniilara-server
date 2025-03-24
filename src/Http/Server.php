@@ -2,25 +2,28 @@
 
 namespace Uniilara\Server\Http;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Http\Request as LaravelRequest;
+use Workerman\Worker;
+use Workerman\Connection\TcpConnection;
 use Uniilara\Server\Support\SymfonyRequestFactory;
 use Uniilara\Server\Support\WorkermanResponseFactory;
-use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request as WorkermanRequest;
-use Workerman\Protocols\Http\Response as WorkermanResponse;
-use Workerman\Worker;
-use Uniilara\Server\Http\HttpKernel;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Server
 {
     protected string $host;
     protected int $port;
+    protected int $workers;
 
-    public function __construct(string $host = 'localhost', int $port = 8550)
+    public function __construct(
+        string $host = "localhost",
+        int $port = 8550,
+        int $workers = 4
+    )
     {
         $this->host = $host;
         $this->port = $port;
+        $this->workers = $workers;
     }
 
     /**
@@ -37,7 +40,7 @@ class Server
         $kernel = new HttpKernel($app);
 
         $worker = new Worker("http://{$this->host}:{$this->port}");
-        $worker->count = 4;
+        $worker->count = $this->workers;
 
         $worker->onMessage = function (TcpConnection $connection, WorkermanRequest $workermanRequest) use ($kernel) {
 
