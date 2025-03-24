@@ -28,6 +28,11 @@ class Server
      */
     public function run() : void
     {
+        if (app()->environment('testing')) {
+            echo "Workerman boot skipped in test.\n";
+            return;
+        }
+
         $app = require base_path('bootstrap/app.php');
         $kernel = new HttpKernel($app);
 

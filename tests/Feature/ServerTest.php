@@ -1,6 +1,6 @@
 <?php
 
-namespace Uniilara\Server\Tests\Feature;
+namespace Tests\Feature;
 
 use Orchestra\Testbench\TestCase;
 use Uniilara\Server\ServerServiceProvider;
